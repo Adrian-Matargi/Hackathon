@@ -29,6 +29,15 @@
       font-size: 1.2em;
       color: #333;
     }
+    #link {
+      margin-top: 20px;
+      font-size: 1em;
+      color: #0066cc;
+      text-decoration: none;
+    }
+    #link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -39,6 +48,8 @@
     <div id="qr-reader"></div>
     <!-- Local para exibir o resultado do QR Code -->
     <div id="resultado">Escaneie um QR Code!</div>
+    <!-- Local para exibir o link clicável -->
+    <a id="link" href="#" target="_blank" style="display: none;">Clique aqui para acessar o QR Code</a>
   </div>
 
   <script>
@@ -46,9 +57,12 @@
     function onScanSuccess(decodedText, decodedResult) {
       // Exibe o conteúdo do QR Code
       document.getElementById('resultado').textContent = 'QR Code Escaneado: ' + decodedText;
-      
-      // Redireciona para a URL do QR Code (se for um link válido)
-      window.location.href = decodedText;
+
+      // Exibe o link clicável
+      const linkElement = document.getElementById('link');
+      linkElement.href = decodedText;  // Define o link para a URL do QR Code
+      linkElement.textContent = 'Clique aqui para acessar a página do QR Code';  // Texto do link
+      linkElement.style.display = 'inline';  // Torna o link visível
     }
 
     // Função para tratar erro (caso a câmera não possa ser acessada)
