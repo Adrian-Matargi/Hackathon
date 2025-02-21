@@ -47,6 +47,11 @@
         if (code) {
             // Exibe o resultado no navegador
             document.getElementById('result').textContent = 'Resultado: ' + code.data;
+
+            // Se o QR Code for uma URL, abre a página
+            if (isValidUrl(code.data)) {
+                window.location.href = code.data; // Redireciona para a URL do QR Code
+            }
         } else {
             // Se não detectar o QR Code, continua a buscar
             document.getElementById('result').textContent = 'Resultado: Nenhum QR Code detectado.';
@@ -54,6 +59,16 @@
 
         // Chama a função novamente para continuar a leitura
         requestAnimationFrame(scanQRCode);
+    }
+
+    // Função para verificar se a string é uma URL válida
+    function isValidUrl(str) {
+        try {
+            new URL(str);
+            return true;
+        } catch (_) {
+            return false;
+        }
     }
 </script>
 
