@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScanQRCode</title>
+</head>
+<body>
+    <video id="webcam" width="100%" height="auto"></video>
+
+    <!-- importando a arquivo baixado -->
+    <script src="instascan.min.js"></script>
+    
+    <script>
+        const scanner = new Instascan.Scanner({
+            video: document.getElementById('webcam')
+        });
+
+        // Quando o QR Code for lido
+        scanner.addListener('scan', content => {
+            console.log(content); // Exibe o conteúdo lido no console
+
+            // Abre a página do QR Code quando lido
+            window.location.href = content;
+        });
+
+        // Obtém as câmeras disponíveis
+        Instascan.Camera.getCameras().then(cameras => {
+            if(cameras.length > 0) {
+                // Inicia a câmera
+                scanner.start(cameras[0]);
+            } else {
+                // Caso não encontre uma camera
+                console.error('Nenhuma câmera encontrada!');
+            }
+        }).catch(e => {
+            console.error(e);
+        });
+    </script>
+</body>
+</html>
