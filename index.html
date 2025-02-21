@@ -4,38 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan QR Code and Open Link</title>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
 </head>
 <body>
     <h1>Escaneie o QR Code</h1>
-    <video id="webcam" width="100%" height="auto"></video> <!-- Elemento para exibir a câmera -->
-
-    <!-- Importando a biblioteca Instascan -->
-    <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/instascan.min.js"></script>
+    <div id="reader" style="width: 100%; height: 400px;"></div> <!-- Div para exibir a câmera -->
 
     <script>
-        // Configura o scanner
-        const scanner = new Instascan.Scanner({
-            video: document.getElementById('webcam') // Define o elemento de vídeo
-        });
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`QR Code lido: ${decodedText}`);
+            // Redireciona automaticamente para o link lido no QR code
+            window.location.href = decodedText;
+        }
 
-        // Quando o QR Code for lido
-        scanner.addListener('scan', content => {
-            console.log(content); // Exibe o conteúdo lido no console
-            // Abre a URL lida no QR Code
-            window.location.href = content;
-        });
+        function onScanError(errorMessage) {
+            // A função pode ser usada para capturar erros, mas aqui não faremos nada
+            console.warn(errorMessage);
+        }
 
-        // Obtém as câmeras disponíveis
-        Instascan.Camera.getCameras().then(cameras => {
-            if (cameras.length > 0) {
-                // Inicia a captura da primeira câmera
-                scanner.start(cameras[0]);
-            } else {
-                console.error('Nenhuma câmera encontrada!');
-            }
-        }).catch(e => {
-            console.error('Erro ao acessar a câmera:', e);
-        });
+        // Inicializa o leitor de QR Code
+        const html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", 
+            { fps: 10, qrbox: 250 },
+            false
+        );
+        
+        // Inicia o scanner da câmera
+        html5QrcodeScanner.render(onScanSuccess, onScanError);
     </script>
 </body>
 </html>
