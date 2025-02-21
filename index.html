@@ -29,20 +29,6 @@
       font-size: 1.2em;
       color: #333;
     }
-    #botao {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #0066cc;
-      color: white;
-      font-size: 1.2em;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      display: none;
-    }
-    #botao:hover {
-      background-color: #0055a3;
-    }
   </style>
 </head>
 <body>
@@ -51,34 +37,13 @@
     <h2>Leitor de QR Code</h2>
     <div id="qr-reader"></div>
     <div id="resultado">Escaneie um QR Code!</div>
-    <button id="botao" onclick="abrirLink()">Abrir Página</button>
   </div>
 
   <script>
-    // Links pré-definidos
-    const linksPreDefinidos = [
-      "https://example.com",
-      "https://another-example.com",
-      "https://yetanother.com"
-    ];
-
-    // Função para verificar se o QR Code contém um link válido
-    function verificarLinkValido(decodedText) {
-      return linksPreDefinidos.includes(decodedText);
-    }
-
-    // Função para exibir o botão quando um QR Code válido for escaneado
+    // Função para abrir o link do QR Code automaticamente
     function onScanSuccess(decodedText, decodedResult) {
       document.getElementById('resultado').textContent = 'QR Code Escaneado: ' + decodedText;
-
-      if (verificarLinkValido(decodedText)) {
-        // Exibe o botão se o link for válido
-        const botao = document.getElementById('botao');
-        botao.style.display = 'inline-block';
-        botao.setAttribute('data-link', decodedText); // Salva o link no botão
-      } else {
-        document.getElementById('resultado').textContent = 'Link não válido!';
-      }
+      window.location.href = decodedText;  // Redireciona para a URL lida no QR Code
     }
 
     // Função de erro
@@ -86,17 +51,10 @@
       console.warn(`Erro de leitura: ${errorMessage}`);
     }
 
-    // Função para abrir o link
-    function abrirLink() {
-      const botao = document.getElementById('botao');
-      const link = botao.getAttribute('data-link');
-      window.open(link, '_blank'); // Abre o link em uma nova aba
-    }
-
-    // Função para ajustar o acesso à câmera e detecção do QR Code
+    // Função para iniciar a leitura do QR Code
     function iniciarLeituraQRCode() {
       const config = {
-        fps: 20,  // Aumenta os frames por segundo para melhorar a detecção
+        fps: 30,  // Aumenta os frames por segundo para melhorar a detecção
         qrbox: 300,  // Aumenta o tamanho da área de leitura
         aspectRatio: 1,  // Ajusta para manter a proporção de captura de vídeo
         disableFlip: false,  // Permite rotação, caso o dispositivo esteja deitado
@@ -116,7 +74,7 @@
       });
     }
 
-    // Função para acessar o deviceId da câmera e garantir que o dispositivo tenha uma câmera funcional
+    // Função para verificar e iniciar a leitura quando uma câmera for detectada
     function verificarCameras() {
       navigator.mediaDevices.enumerateDevices()
         .then(devices => {
