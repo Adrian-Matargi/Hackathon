@@ -5,12 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leitor de QR Code</title>
     <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
+    <style>
+        /* Certifique-se de que o layout é responsivo */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        video {
+            width: 100%;  /* Ajusta automaticamente à largura da tela */
+            max-width: 300px; /* Limita a largura do vídeo a 300px */
+            border: 1px solid black;
+        }
+        #result {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 
-<h1>Leitor de QR Code V3</h1>
+<h1>Leitor de QR Code V4</h1>
 
-<video id="preview" width="300" height="200" style="border: 1px solid black;"></video>
+<video id="preview" style="border: 1px solid black;"></video>
 
 <p id="result">Resultado: Nenhum QR Code detectado.</p>
 
