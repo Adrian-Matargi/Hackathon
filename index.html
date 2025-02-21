@@ -3,101 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <title>Leitor de QR Code</title>
   <!-- CDN da biblioteca html5-qrcode -->
   <script src="./html5-qrcode.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f7f7f7;
-    }
-    #qr-reader {
-      width: 100%;
-      max-width: 500px;
-      height: auto;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: white;
-    }
-    #resultado {
-      margin-top: 20px;
-      font-size: 1.2em;
-      color: #333;
-    }
-  </style>
 </head>
 <body>
 
-  <div>
-    <h2>Leitor de QR Code</h2>
-    <div id="qr-reader"></div>
-    <div id="resultado">Escaneie um QR Code!</div>
-  </div>
+<header id="header">
+  <header>
+    <div class="container">
+        <div class="containerLogo">
+           <img src="images/logo.svg" alt="" class="logo"> 
+        </div>
 
-  <script>
-    // Função para abrir o link do QR Code automaticamente
-    function onScanSuccess(decodedText, decodedResult) {
-      document.getElementById('resultado').textContent = 'QR Code Escaneado: ' + decodedText;
-      window.location.href = decodedText;  // Redireciona para a URL lida no QR Code
-    }
+        <a href="">
+            <i class="bi bi-house icon"></i>
+        </a>
+    </div>
+    <img id="supergraphic" src="images/supergraphic.svg" alt="">
+    
+</header>
 
-    // Função de erro
-    function onScanError(errorMessage) {
-      console.warn(`Erro de leitura: ${errorMessage}`);
-    }
+<main>
 
-    // Função para iniciar a leitura do QR Code
-    function iniciarLeituraQRCode() {
-      const config = {
-        fps: 30,  // Aumenta os frames por segundo para melhorar a detecção
-        qrbox: 300,  // Aumenta o tamanho da área de leitura
-        aspectRatio: 1,  // Ajusta para manter a proporção de captura de vídeo
-        disableFlip: false,  // Permite rotação, caso o dispositivo esteja deitado
-      };
-
-      const qrCodeReader = new Html5Qrcode("qr-reader");
-
-      // Iniciar leitura com a câmera traseira ou a primeira câmera disponível
-      qrCodeReader.start(
-        { facingMode: "environment" },  // Preferir a câmera traseira
-        config,
-        onScanSuccess,
-        onScanError
-      ).catch(err => {
-        console.error("Erro ao acessar a câmera:", err);
-        document.getElementById('resultado').textContent = "Falha ao acessar a câmera.";
-      });
-    }
-
-    // Função para verificar e iniciar a leitura quando uma câmera for detectada
-    function verificarCameras() {
-      navigator.mediaDevices.enumerateDevices()
-        .then(devices => {
-          const cameras = devices.filter(device => device.kind === 'videoinput');
-          if (cameras.length === 0) {
-            console.error("Nenhuma câmera encontrada");
-            document.getElementById('resultado').textContent = "Câmera não detectada!";
-          } else {
-            iniciarLeituraQRCode();
-          }
-        })
-        .catch(error => {
-          console.error("Erro ao acessar os dispositivos de mídia:", error);
-          document.getElementById('resultado').textContent = "Erro ao acessar as câmeras!";
+  <div class="container-content">
+    <div class="reader-container">
+      <h2>Escaneie o QR  das salas</h2>
+      <div id="qr-reader"></div>
+      <div id="resultado">Escaneie um QR Code!</div>
+    </div>
+    <script>
+      // Função para abrir o link do QR Code automaticamente
+      function onScanSuccess(decodedText, decodedResult) {
+        document.getElementById('resultado').textContent = 'QR Code Escaneado: ' + decodedText;
+        window.location.href = decodedText;  // Redireciona para a URL lida no QR Code
+      }
+      // Função de erro
+      function onScanError(errorMessage) {
+        console.warn(`Erro de leitura: ${errorMessage}`);
+      }
+      // Função para iniciar a leitura do QR Code
+      function iniciarLeituraQRCode() {
+        const config = {
+          fps: 30,  // Aumenta os frames por segundo para melhorar a detecção
+          qrbox: 300,  // Aumenta o tamanho da área de leitura
+          aspectRatio: 1,  // Ajusta para manter a proporção de captura de vídeo
+          disableFlip: false,  // Permite rotação, caso o dispositivo esteja deitado
+        };
+        const qrCodeReader = new Html5Qrcode("qr-reader");
+        // Iniciar leitura com a câmera traseira ou a primeira câmera disponível
+        qrCodeReader.start(
+          { facingMode: "environment" },  // Preferir a câmera traseira
+          config,
+          onScanSuccess,
+          onScanError
+        ).catch(err => {
+          console.error("Erro ao acessar a câmera:", err);
+          document.getElementById('resultado').textContent = "Falha ao acessar a câmera.";
         });
-    }
+      }
+      // Função para verificar e iniciar a leitura quando uma câmera for detectada
+      function verificarCameras() {
+        navigator.mediaDevices.enumerateDevices()
+          .then(devices => {
+            const cameras = devices.filter(device => device.kind === 'videoinput');
+            if (cameras.length === 0) {
+              console.error("Nenhuma câmera encontrada");
+              document.getElementById('resultado').textContent = "Câmera não detectada!";
+            } else {
+              iniciarLeituraQRCode();
+            }
+          })
+          .catch(error => {
+            console.error("Erro ao acessar os dispositivos de mídia:", error);
+            document.getElementById('resultado').textContent = "Erro ao acessar as câmeras!";
+          });
+      }
+      // Iniciar a leitura assim que a página carregar
+      window.onload = () => {
+        verificarCameras();
+      };
+    </script>
+  </div>
+</main>
 
-    // Iniciar a leitura assim que a página carregar
-    window.onload = () => {
-      verificarCameras();
-    };
-
-  </script>
 
 </body>
 </html>
