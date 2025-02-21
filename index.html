@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leitor de QR Code</title>
   <!-- CDN da biblioteca html5-qrcode -->
-  <script src="./html5-qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -29,14 +29,19 @@
       font-size: 1.2em;
       color: #333;
     }
-    #link {
+    #botao {
       margin-top: 20px;
-      font-size: 1em;
-      color: #0066cc;
-      text-decoration: none;
+      padding: 10px 20px;
+      background-color: #0066cc;
+      color: white;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
     }
-    #link:hover {
-      text-decoration: underline;
+    #botao:hover {
+      background-color: #0055a3;
     }
   </style>
 </head>
@@ -44,55 +49,74 @@
 
   <div>
     <h2>Leitor de QR Code</h2>
-    <!-- Div onde a câmera será exibida -->
     <div id="qr-reader"></div>
-    <!-- Local para exibir o resultado do QR Code -->
     <div id="resultado">Escaneie um QR Code!</div>
-    <!-- Local para exibir o link clicável -->
-    <a id="link" href="#" target="_blank" style="display: none;">Clique aqui para acessar o QR Code</a>
+    <button id="botao" onclick="abrirLink()">Abrir Página</button>
   </div>
 
   <script>
-    // Função para tratar o sucesso ao escanear o QR Code
-    function onScanSuccess(decodedText, decodedResult) {
-      // Exibe o conteúdo do QR Code
-      document.getElementById('resultado').textContent = 'QR Code Escaneado: ' + decodedText;
+    // Links pré-definidos
+    const linksPreDefinidos = [
+      "https://example.com",
+      "https://another-example.com",
+      "https://yetanother.com"
+    ];
 
-      // Exibe o link clicável
-      const linkElement = document.getElementById('link');
-      linkElement.href = decodedText;  // Define o link para a URL do QR Code
-      linkElement.textContent = 'Clique aqui para acessar a página do QR Code';  // Texto do link
-      linkElement.style.display = 'inline';  // Torna o link visível
+    // Função para verificar se o QR Code contém um link válido
+    function verificarLinkValido(decodedText) {
+      return linksPreDefinidos.includes(decodedText);
     }
 
-    // Função para tratar erro (caso a câmera não possa ser acessada)
+    // Função para exibir o botão quando um QR Code válido for escaneado
+    function onScanSuccess(decodedText, decodedResult) {
+      document.getElementById('resultado').textContent = 'QR Code Escaneado: ' + decodedText;
+
+      if (verificarLinkValido(decodedText)) {
+        // Exibe o botão se o link for válido
+        const botao = document.getElementById('botao');
+        botao.style.display = 'inline-block';
+        botao.setAttribute('data-link', decodedText); // Salva o link no botão
+      } else {
+        document.getElementById('resultado').textContent = 'Link não válido!';
+      }
+    }
+
+    // Função de erro
     function onScanError(errorMessage) {
       console.warn(`Erro de leitura: ${errorMessage}`);
     }
 
-    // Inicializa a câmera e começa a leitura do QR Code
+    // Função para abrir o link
+    function abrirLink() {
+      const botao = document.getElementById('botao');
+      const link = botao.getAttribute('data-link');
+      window.open(link, '_blank'); // Abre o link em uma nova aba
+    }
+
+    // Inicializa a leitura do QR Code
     function iniciarLeituraQRCode() {
       const config = {
-        fps: 10, // Frames por segundo para leitura (ajustável conforme necessário)
-        qrbox: 250, // Tamanho da área do QR Code na tela
+        fps: 10,  // Frames por segundo
+        qrbox: 250,  // Tamanho da área do QR Code
       };
 
       const qrCodeReader = new Html5Qrcode("qr-reader");
 
-      // Inicia a leitura da câmera
       qrCodeReader.start(
-        { facingMode: "environment" }, // Preferir a câmera traseira
+        { facingMode: "environment" }, // Usar a câmera traseira
         config,
         onScanSuccess,
         onScanError
       ).catch(err => {
-        console.error("Erro ao iniciar a câmera", err);
-        document.getElementById('resultado').textContent = "Falha ao acessar a câmera. Tente novamente.";
+        console.error("Erro ao acessar a câmera:", err);
+        document.getElementById('resultado').textContent = "Falha ao acessar a câmera.";
       });
     }
 
-    // Chama a função para iniciar a leitura
-    iniciarLeituraQRCode();
+    // Iniciar a leitura assim que a página carregar
+    window.onload = () => {
+      iniciarLeituraQRCode();
+    };
   </script>
 
 </body>
