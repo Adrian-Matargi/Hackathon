@@ -7,36 +7,40 @@
 </head>
 <body>
     <h1>LALALA</h1>
-    <video id="webcam" width="100%" height="auto"></video>
+    <video id="webcam" width="100%" height="auto" autoplay></video> <!-- Adicionado autoplay -->
 
-    <!-- importando a arquivo baixado -->
-    <script src="./instascan.min.js"></script>
-    
+    <!-- Importando o arquivo Instascan -->
+    <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/instascan.min.js"></script> <!-- Usando CDN -->
+
     <script>
-        const scanner = new Instascan.Scanner({
-            video: document.getElementById('webcam')
-        });
+        // Verifica se o navegador suporta a API getUserMedia
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            const scanner = new Instascan.Scanner({
+                video: document.getElementById('webcam')
+            });
 
-        // Quando o QR Code for lido
-        scanner.addListener('scan', content => {
-            console.log(content); // Exibe o conteúdo lido no console
+            // Quando o QR Code for lido
+            scanner.addListener('scan', content => {
+                console.log(content); // Exibe o conteúdo lido no console
 
-            // Abre a página do QR Code quando lido
-            window.location.href = content;
-        });
+                // Abre a página do QR Code quando lido
+                window.location.href = content;
+            });
 
-        // Obtém as câmeras disponíveis
-        Instascan.Camera.getCameras().then(cameras => {
-            if(cameras.length > 0) {
-                // Inicia a câmera
-                scanner.start(cameras[0]);
-            } else {
-                // Caso não encontre uma camera
-                console.error('Nenhuma câmera encontrada!');
-            }
-        }).catch(e => {
-            console.error(e);
-        });
+            // Obtém as câmeras disponíveis
+            Instascan.Camera.getCameras().then(cameras => {
+                if (cameras.length > 0) {
+                    // Inicia a câmera
+                    scanner.start(cameras[0]);
+                } else {
+                    console.error('Nenhuma câmera encontrada!');
+                }
+            }).catch(e => {
+                console.error('Erro ao acessar a câmera: ', e);
+            });
+        } else {
+            alert('Seu navegador não suporta acesso à câmera!');
+        }
     </script>
 </body>
 </html>
