@@ -1,50 +1,85 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Scanner</title>
-    <!-- Inclua a biblioteca Html5QRCode -->
-    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
-    <style>
-        .result {
-            background-color: green;
-            color: #fff;
-            padding: 20px;
-        }
-        .row {
-            display: flex;
-        }
-        .col {
-            flex: 1;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leitor de QR Code</title>
+  <!-- CDN da biblioteca html5-qrcode -->
+  <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f7f7f7;
+    }
+    #qr-reader {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white;
+    }
+    #resultado {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #333;
+    }
+  </style>
 </head>
 <body>
-    <div class="row">
-        <div class="col">
-            <div style="width: 500px;" id="reader"></div>
-        </div>
-        <div class="col" style="padding: 30px;">
-            <h4>SCAN RESULT</h4>
-            <div id="result">Result Here</div>
-        </div>
-    </div>
 
-    <script type="text/javascript">
-        function onScanSuccess(qrCodeMessage) {
-            document.getElementById('result').innerHTML = '<span class="result">' + qrCodeMessage + '</span>';
-        }
+  <div>
+    <h2>Leitor de QR Code</h2>
+    <!-- Div onde a câmera será exibida -->
+    <div id="qr-reader"></div>
+    <!-- Local para exibir o resultado do QR Code -->
+    <div id="resultado">Escaneie um QR Code!</div>
+  </div>
 
-        function onScanError(errorMessage) {
-            // Aqui você pode tratar erros de escaneamento
-            console.log("Scan Error: ", errorMessage);
-        }
+  <script>
+    // Função para tratar o sucesso ao escanear o QR Code
+    function onScanSuccess(decodedText, decodedResult) {
+      // Exibe o conteúdo do QR Code
+      document.getElementById('resultado').textContent = 'QR Code Escaneado: ' + decodedText;
+      
+      // Redireciona para a URL do QR Code (se for um link válido)
+      window.location.href = decodedText;
+    }
 
-        // Iniciar o scanner
-        var html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", { fps: 10, qrbox: 250 });
-        html5QrcodeScanner.render(onScanSuccess, onScanError);
-    </script>
+    // Função para tratar erro (caso a câmera não possa ser acessada)
+    function onScanError(errorMessage) {
+      console.warn(`Erro de leitura: ${errorMessage}`);
+    }
+
+    // Inicializa a câmera e começa a leitura do QR Code
+    function iniciarLeituraQRCode() {
+      const config = {
+        fps: 10, // Frames por segundo para leitura (ajustável conforme necessário)
+        qrbox: 250, // Tamanho da área do QR Code na tela
+      };
+
+      const qrCodeReader = new Html5Qrcode("qr-reader");
+
+      // Inicia a leitura da câmera
+      qrCodeReader.start(
+        { facingMode: "environment" }, // Preferir a câmera traseira
+        config,
+        onScanSuccess,
+        onScanError
+      ).catch(err => {
+        console.error("Erro ao iniciar a câmera", err);
+        document.getElementById('resultado').textContent = "Falha ao acessar a câmera. Tente novamente.";
+      });
+    }
+
+    // Chama a função para iniciar a leitura
+    iniciarLeituraQRCode();
+  </script>
+
 </body>
 </html>
