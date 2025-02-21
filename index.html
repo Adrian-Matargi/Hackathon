@@ -3,44 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScanQRCode</title>
+    <title>Scan QR Code and Open Link</title>
 </head>
 <body>
-    <h1>LALALA</h1>
-    <video id="webcam" width="100%" height="auto" autoplay></video> <!-- Adicionado autoplay -->
+    <h1>Escaneie o QR Code</h1>
+    <video id="webcam" width="100%" height="auto"></video> <!-- Elemento para exibir a câmera -->
 
-    <!-- Importando o arquivo Instascan -->
-    <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/instascan.min.js"></script> <!-- Usando CDN -->
+    <!-- Importando a biblioteca Instascan -->
+    <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/instascan.min.js"></script>
 
     <script>
-        // Verifica se o navegador suporta a API getUserMedia
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            const scanner = new Instascan.Scanner({
-                video: document.getElementById('webcam')
-            });
+        // Configura o scanner
+        const scanner = new Instascan.Scanner({
+            video: document.getElementById('webcam') // Define o elemento de vídeo
+        });
 
-            // Quando o QR Code for lido
-            scanner.addListener('scan', content => {
-                console.log(content); // Exibe o conteúdo lido no console
+        // Quando o QR Code for lido
+        scanner.addListener('scan', content => {
+            console.log(content); // Exibe o conteúdo lido no console
+            // Abre a URL lida no QR Code
+            window.location.href = content;
+        });
 
-                // Abre a página do QR Code quando lido
-                window.location.href = content;
-            });
-
-            // Obtém as câmeras disponíveis
-            Instascan.Camera.getCameras().then(cameras => {
-                if (cameras.length > 0) {
-                    // Inicia a câmera
-                    scanner.start(cameras[1]);
-                } else {
-                    console.error('Nenhuma câmera encontrada!');
-                }
-            }).catch(e => {
-                console.error('Erro ao acessar a câmera: ', e);
-            });
-        } else {
-            alert('Seu navegador não suporta acesso à câmera!');
-        }
+        // Obtém as câmeras disponíveis
+        Instascan.Camera.getCameras().then(cameras => {
+            if (cameras.length > 0) {
+                // Inicia a captura da primeira câmera
+                scanner.start(cameras[0]);
+            } else {
+                console.error('Nenhuma câmera encontrada!');
+            }
+        }).catch(e => {
+            console.error('Erro ao acessar a câmera:', e);
+        });
     </script>
 </body>
 </html>
