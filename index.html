@@ -1,52 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scan QR Code and Open Link</title>
-    <!-- Carregar a biblioteca html5-qrcode a partir do CDN -->
-    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    <title>Leitor de QR Code</title>
+    <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
 </head>
 <body>
-    <h1>Escaneie o QR Code</h1>
-    <div id="reader" style="width: 100%; height: 400px;"></div> <!-- Div para exibir a câmera -->
 
-    <script>
-        // Função chamada quando o QR code é lido com sucesso
-        function onScanSuccess(decodedText, decodedResult) {
-            console.log(`QR Code lido: ${decodedText}`);
-            // Redireciona para o link do QR code lido
-            window.location.href = decodedText;
-        }
+<h1>Leitor de QR Code</h1>
 
-        // Função chamada quando ocorre algum erro na leitura do QR code
-        function onScanError(errorMessage) {
-            console.warn(`Erro na leitura do QR code: ${errorMessage}`);
-        }
+<video id="preview" width="300" height="200" style="border: 1px solid black;"></video>
 
-        // Verifica se o navegador tem permissão para acessar a câmera
-        function checkPermissions() {
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                alert('Este navegador não suporta acesso à câmera.');
-                return false;
-            }
-            return true;
-        }
+<p id="result">Resultado: Nenhum QR Code detectado.</p>
 
-        // Inicializa o scanner apenas se a permissão for concedida
-        if (checkPermissions()) {
-            // Inicializa o scanner
-            const html5QrcodeScanner = new Html5QrcodeScanner(
-                "reader", 
-                { fps: 10, qrbox: 250 },
-                false
-            );
+<script>
+    // Acessando a câmera
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        .then(function(stream) {
+            const video = document.getElementById('preview');
+            video.srcObject = stream;
+            video.setAttribute('playsinline', true); // necessário para iOS
+            video.play();
+            requestAnimationFrame(scanQRCode);
+        })
+        .catch(function(error) {
+            alert("Erro ao acessar a câmera: " + error.message);
+        });
 
-            // Inicia o scanner da câmera
-            html5QrcodeScanner.render(onScanSuccess, onScanError);
+    function scanQRCode() {
+        const video = document.getElementById('preview');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        // Define o tamanho do canvas com base nas dimensões do vídeo
+        canvas.height = video.videoHeight;
+        canvas.width = video.videoWidth;
+
+        // Desenha o quadro do vídeo no canvas
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Tenta decodificar o QR Code a partir do conteúdo do canvas
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+        if (code) {
+            // Exibe o resultado no navegador
+            document.getElementById('result').textContent = 'Resultado: ' + code.data;
         } else {
-            console.error("Permissão para acessar a câmera não foi concedida.");
+            // Se não detectar o QR Code, continua a buscar
+            document.getElementById('result').textContent = 'Resultado: Nenhum QR Code detectado.';
         }
-    </script>
+
+        // Chama a função novamente para continuar a leitura
+        requestAnimationFrame(scanQRCode);
+    }
+</script>
+
 </body>
 </html>
