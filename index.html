@@ -93,17 +93,20 @@
       window.open(link, '_blank'); // Abre o link em uma nova aba
     }
 
-    // Inicializa a leitura do QR Code
+    // Função para ajustar o acesso à câmera e detecção do QR Code
     function iniciarLeituraQRCode() {
       const config = {
-        fps: 10,  // Frames por segundo
-        qrbox: 250,  // Tamanho da área do QR Code
+        fps: 20,  // Aumenta os frames por segundo para melhorar a detecção
+        qrbox: 300,  // Aumenta o tamanho da área de leitura
+        aspectRatio: 1,  // Ajusta para manter a proporção de captura de vídeo
+        disableFlip: false,  // Permite rotação, caso o dispositivo esteja deitado
       };
 
       const qrCodeReader = new Html5Qrcode("qr-reader");
 
+      // Iniciar leitura com a câmera traseira ou a primeira câmera disponível
       qrCodeReader.start(
-        { facingMode: "environment" }, // Usar a câmera traseira
+        { facingMode: "environment" },  // Preferir a câmera traseira
         config,
         onScanSuccess,
         onScanError
@@ -113,10 +116,29 @@
       });
     }
 
+    // Função para acessar o deviceId da câmera e garantir que o dispositivo tenha uma câmera funcional
+    function verificarCameras() {
+      navigator.mediaDevices.enumerateDevices()
+        .then(devices => {
+          const cameras = devices.filter(device => device.kind === 'videoinput');
+          if (cameras.length === 0) {
+            console.error("Nenhuma câmera encontrada");
+            document.getElementById('resultado').textContent = "Câmera não detectada!";
+          } else {
+            iniciarLeituraQRCode();
+          }
+        })
+        .catch(error => {
+          console.error("Erro ao acessar os dispositivos de mídia:", error);
+          document.getElementById('resultado').textContent = "Erro ao acessar as câmeras!";
+        });
+    }
+
     // Iniciar a leitura assim que a página carregar
     window.onload = () => {
-      iniciarLeituraQRCode();
+      verificarCameras();
     };
+
   </script>
 
 </body>
