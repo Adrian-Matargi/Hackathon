@@ -17,6 +17,14 @@ header{
     height: fit-content;
     flex-direction: column;
 }
+
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .container{
     width: 95%;
     display: flex;
@@ -28,12 +36,13 @@ header{
 #supergraphic{
     width: 100%;
 }
+
 .containerLogo{
     display: flex;
     width: 118.8px;
     height: 50px;
-
 }
+
 .logo{
     width: 100%;
 }
@@ -67,7 +76,6 @@ i.bi.bi-house.icon{
 .reader-container h2{
     display: flex;
     align-items: center;
-    padding-bottom: 50px;
 }
 
 #qr-reader {
