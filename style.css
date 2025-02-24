@@ -44,12 +44,7 @@ i.bi.bi-house.icon{
 }
 
 /* QR CODE */
-main {
-    display: flex;
-    justify-content: center; /* Alinha o conteúdo horizontalmente */
-    align-items: center; /* Alinha o conteúdo verticalmente */
-    height: calc(100vh - 120px); /* Subtrai a altura do header para centralizar o conteúdo */
-}
+
 
 .container-content {
     display: flex;
@@ -89,4 +84,31 @@ main {
     color: #333;
     display: flex;
     align-items: center;
+}
+
+/* Tour Virtual */
+.tour-virtual{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-predio{
+    text-align: center;
+}
+
+.fazer-tour{
+    width: 216px;
+    height: 54px;
+    color: #ffffff;
+    background-color: #9E2896;
+    font-size: 24px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.fazer-tour:hover{
+    cursor: pointer;
 }
