@@ -54,6 +54,7 @@ i.bi.bi-house.icon{
     width: 100%;
     max-width: 600px;
     padding: 20px;
+    margin-top: 50px;
 }
 
 .reader-container {
@@ -66,7 +67,7 @@ i.bi.bi-house.icon{
 .reader-container h2{
     display: flex;
     align-items: center;
-    padding-bottom: 100px;
+    padding-bottom: 50px;
 }
 
 #qr-reader {
@@ -96,8 +97,8 @@ i.bi.bi-house.icon{
 }
 
 .text-predio{
-    text-align: center;
     padding-bottom: 5px;
+    text-align: center;
 }
 
 .fazer-tour{
