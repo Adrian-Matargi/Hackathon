@@ -1,61 +1,59 @@
-*{
+* {
     padding: 0;
     margin: 0;
     border: 0;
     font-family: sans-serif;
     box-sizing: border-box;
-}
-body,html{
+  }
+  
+  body, html {
     width: 100vw;
     min-height: 100vh;
-
-}
-header{
+  }
+  
+  header {
     display: flex;
     align-items: center;
     width: 100%;
     height: fit-content;
     flex-direction: column;
-}
-
-main{
+  }
+  
+  main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.container{
+  }
+  
+  .container {
     width: 95%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-}
-
-#supergraphic{
+  }
+  
+  #supergraphic {
     width: 100%;
-}
-
-.containerLogo{
+  }
+  
+  .containerLogo {
     display: flex;
     width: 118.8px;
     height: 50px;
-}
-
-.logo{
+  }
+  
+  .logo {
     width: 100%;
-}
-
-i.bi.bi-house.icon{
+  }
+  
+  i.bi.bi-house.icon {
     font-size: 20px;
     color: #000000;
-}
-
-/* QR CODE */
-
-
-.container-content {
+  }
+  
+  /* QR CODE */
+  .container-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,21 +62,21 @@ i.bi.bi-house.icon{
     max-width: 600px;
     padding: 20px;
     margin-top: 50px;
-}
-
-.reader-container {
+  }
+  
+  .reader-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.reader-container h2{
+  }
+  
+  .reader-container h2 {
     display: flex;
     align-items: center;
-}
-
-#qr-reader {
+  }
+  
+  #qr-reader {
     width: 100%;
     max-width: 500px;
     height: auto;
@@ -86,30 +84,30 @@ i.bi.bi-house.icon{
     display: flex;
     align-items: center;
     padding-bottom: 20px;
-}
-
-#resultado {
+  }
+  
+  #resultado {
     font-size: 12px;
     color: #333;
     display: flex;
     align-items: center;
-}
-
-/* Tour Virtual */
-.tour-virtual{
+  }
+  
+  /* Tour Virtual */
+  .tour-virtual {
     margin-top: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.text-predio{
+  }
+  
+  .text-predio {
     padding-bottom: 5px;
     text-align: center;
-}
-
-.fazer-tour{
+  }
+  
+  .fazer-tour {
     width: 216px;
     height: 54px;
     color: #ffffff;
@@ -117,8 +115,24 @@ i.bi.bi-house.icon{
     font-size: 24px;
     border-radius: 10px;
     text-align: center;
-}
-
-.fazer-tour:hover{
+  }
+  
+  .fazer-tour:hover {
     cursor: pointer;
-}
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .container-content {
+      flex-direction: column;
+    }
+  
+    #qr-reader {
+      width: 80%;
+    }
+  
+    .fazer-tour {
+      width: 100%;
+    }
+  }
+  
