@@ -161,8 +161,7 @@ i.bi.bi-house.icon {
 
 /* Para telas médias (tablets) */
 @media (max-width: 1024px) {
-  .container {
-    flex-direction: column;
+  .container {
     align-items: center;
     justify-content: center;
   }
