@@ -12,25 +12,21 @@
 <body>
 
 <header id="header">
-  <header>
-    <div class="container">
-        <div class="containerLogo">
-           <img src="images/logo.svg" alt="" class="logo"> 
-        </div>
-
-        <a href="">
-            <i class="bi bi-house icon"></i>
-        </a>
+  <div class="container">
+    <div class="containerLogo">
+      <img src="images/logo.svg" alt="" class="logo"> 
     </div>
-    <img id="supergraphic" src="images/supergraphic.svg" alt="">
-    
+    <a href="">
+      <i class="bi bi-house icon"></i>
+    </a>
+  </div>
+  <img id="supergraphic" src="images/supergraphic.svg" alt="">
 </header>
 
 <main>
-
   <div class="container-content">
     <div class="reader-container">
-      <h2>Escaneie o QR  das salas</h2>
+      <h2>Escaneie o QR Code das salas</h2>
       <div id="qr-reader"></div>
       <div id="resultado">Escaneie um QR Code!</div>
     </div>
@@ -38,12 +34,17 @@
       // Função para abrir o link do QR Code automaticamente
       function onScanSuccess(decodedText, decodedResult) {
         document.getElementById('resultado').textContent = 'QR Code Escaneado: ' + decodedText;
-        window.location.href = decodedText;  // Redireciona para a URL lida no QR Code
+        // Verifica se o QR Code é uma URL válida antes de redirecionar
+        if (decodedText && decodedText.startsWith("http")) {
+          window.location.href = decodedText;  // Redireciona para a URL lida no QR Code
+        }
       }
+
       // Função de erro
       function onScanError(errorMessage) {
         console.warn(`Erro de leitura: ${errorMessage}`);
       }
+
       // Função para iniciar a leitura do QR Code
       function iniciarLeituraQRCode() {
         const config = {
@@ -64,6 +65,7 @@
           document.getElementById('resultado').textContent = "Falha ao acessar a câmera.";
         });
       }
+
       // Função para verificar e iniciar a leitura quando uma câmera for detectada
       function verificarCameras() {
         navigator.mediaDevices.enumerateDevices()
@@ -81,6 +83,7 @@
             document.getElementById('resultado').textContent = "Erro ao acessar as câmeras!";
           });
       }
+
       // Iniciar a leitura assim que a página carregar
       window.onload = () => {
         verificarCameras();
@@ -90,11 +93,9 @@
 
   <div class="tour-virtual">
     <p class="text-predio">Não está no prédio?</p>
-    <button class="fazer-tour">Fazer Tuor Virtual</button>
+    <button class="fazer-tour">Fazer Tour Virtual</button>
   </div>
-
 </main>
-
 
 </body>
 </html>
