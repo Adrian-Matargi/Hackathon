@@ -11,11 +11,12 @@ body, html {
   min-height: 100vh;
 }
 
-header {
+header{
   display: flex;
   align-items: center;
   width: 100%;
-  height: fit-content;
+  height: fit-content;
+  flex-direction: column;
 }
 
 main {
@@ -83,7 +84,6 @@ i.bi.bi-house.icon {
   background-color: white;
   display: flex;
   align-items: center;
-  padding-bottom: 20px;
 }
 
 #resultado {
@@ -91,6 +91,7 @@ i.bi.bi-house.icon {
   color: #333;
   display: flex;
   align-items: center;
+  padding-top: 20px;
 }
 
 /* Tour Virtual */
@@ -119,4 +120,5 @@ i.bi.bi-house.icon {
 
 .fazer-tour:hover {
   cursor: pointer;
-}
+}
+
