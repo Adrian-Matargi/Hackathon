@@ -126,8 +126,7 @@ i.bi.bi-house.icon {
 
 /* Para telas pequenas (celulares) */
 @media (max-width: 767px) {
-  .container {
-    flex-direction: column;
+  .container {
     align-items: center;
     justify-content: center;
   }
