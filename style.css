@@ -74,6 +74,7 @@
   .reader-container h2 {
     display: flex;
     align-items: center;
+    padding-bottom: 25px;
   }
   
   #qr-reader {
@@ -122,7 +123,7 @@
   }
   
   /* Responsividade */
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     .container-content {
       flex-direction: column;
     }
@@ -135,4 +136,3 @@
       width: 100%;
     }
   }
-  
