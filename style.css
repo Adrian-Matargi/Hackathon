@@ -1,138 +1,187 @@
 * {
-    padding: 0;
-    margin: 0;
-    border: 0;
-    font-family: sans-serif;
-    box-sizing: border-box;
-  }
-  
-  body, html {
-    width: 100vw;
-    min-height: 100vh;
-  }
-  
-  header {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: fit-content;
-    flex-direction: column;
-  }
-  
-  main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#supergraphic {
+  width: 100%;
+}
+
+.containerLogo {
+  display: flex;
+  width: 118.8px;
+  height: 50px;
+}
+
+.logo {
+  width: 100%;
+}
+
+i.bi.bi-house.icon {
+  font-size: 20px;
+  color: #000000;
+}
+
+/* QR CODE */
+.container-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  margin-top: 50px;
+}
+
+.reader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.reader-container h2 {
+  display: flex;
+  align-items: center;
+  padding-bottom: 25px;
+}
+
+#qr-reader {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+#resultado {
+  font-size: 12px;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+/* Tour Virtual */
+.tour-virtual {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-predio {
+  padding-bottom: 5px;
+  text-align: center;
+}
+
+.fazer-tour {
+  width: 216px;
+  height: 54px;
+  color: #ffffff;
+  background-color: #9E2896;
+  font-size: 24px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.fazer-tour:hover {
+  cursor: pointer;
+}
+
+/* Media Queries para Responsividade */
+
+/* Para telas pequenas (celulares) */
+@media (max-width: 767px) {
   .container {
-    width: 95%;
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
   }
-  
-  #supergraphic {
-    width: 100%;
-  }
-  
+
   .containerLogo {
-    display: flex;
-    width: 118.8px;
-    height: 50px;
-  }
-  
-  .logo {
-    width: 100%;
-  }
-  
-  i.bi.bi-house.icon {
-    font-size: 20px;
-    color: #000000;
-  }
-  
-  /* QR CODE */
-  .container-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    margin-top: 50px;
-  }
-  
-  .reader-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .reader-container h2 {
-    display: flex;
-    align-items: center;
-    padding-bottom: 25px;
-  }
-  
-  #qr-reader {
-    width: 100%;
-    max-width: 500px;
+    width: 100px;
     height: auto;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    padding-bottom: 20px;
-  }
-  
-  #resultado {
-    font-size: 12px;
-    color: #333;
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Tour Virtual */
-  .tour-virtual {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
   }
-  
-  .text-predio {
-    padding-bottom: 5px;
-    text-align: center;
+
+  .reader-container h2 {
+    font-size: 18px;
+    padding-bottom: 15px;
   }
-  
+
+  #qr-reader {
+    width: 90%;
+    max-width: 400px;
+  }
+
   .fazer-tour {
-    width: 216px;
-    height: 54px;
-    color: #ffffff;
-    background-color: #9E2896;
-    font-size: 24px;
-    border-radius: 10px;
-    text-align: center;
+    width: 180px;
+    height: 50px;
+    font-size: 20px;
   }
-  
-  .fazer-tour:hover {
-    cursor: pointer;
+
+  .text-predio {
+    padding-bottom: 10px;
+    font-size: 14px;
   }
-  
-  /* Responsividade */
-  @media (max-width: 480px) {
-    .container-content {
-      flex-direction: column;
-    }
-  
-    #qr-reader {
-      width: 80%;
-    }
-  
-    .fazer-tour {
-      width: 100%;
-    }
+}
+
+/* Para telas médias (tablets) */
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
+
+  .fazer-tour {
+    width: 200px;
+    height: 50px;
+    font-size: 22px;
+  }
+
+  .containerLogo {
+    width: 100px;
+    height: auto;
+    justify-content: center;
+  }
+
+  #qr-reader {
+    width: 90%;
+    max-width: 450px;
+  }
+}
